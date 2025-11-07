@@ -17,8 +17,7 @@ def get_gemini_response(prompt, image_data=None, text_data=None):
     return response.text
 
 def ask_gemini_about_invoice(prompt, text_data=None, image_data=None):
-    # Choose a valid model
-    model_name = "gemini-2.5-flash"  # check list_models to confirm access
+    model_name = "gemini-2.5-flash"
     model = genai.GenerativeModel(model_name)
 
     if image_data:
@@ -27,4 +26,3 @@ def ask_gemini_about_invoice(prompt, text_data=None, image_data=None):
         response = model.generate_content(f"{prompt}\n\n{text_data}")
 
     return response.text
-

@@ -5,7 +5,7 @@ from PIL import Image
 # Page setup
 st.set_page_config(page_title="Invoice Q&A (Gemini Pro)", layout="wide")
 
-st.title("📄 Invoice Q&A System (Gemini Pro)")
+st.title("Invoice Q&A System")
 
 # Upload Section
 uploaded_file = st.file_uploader(
