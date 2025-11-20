@@ -1,4 +1,4 @@
-# 🧾 Multi-Language Invoice Q&A (Gemini Vision)
+# 🧾 Multi-Language Invoice Q&A System Using Gemini
 
 A simple Streamlit app where you can upload an invoice (PDF or image) and ask questions about it in **English or any languages Suported by Gemini**.  
 The system converts PDF pages into images and uses **Gemini 2.5 Pro** (multimodal) to understand the invoice — **no separate OCR required**.
