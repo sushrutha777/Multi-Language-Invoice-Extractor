@@ -16,7 +16,7 @@ The system converts PDF pages into images and uses **Gemini 2.5 Pro** (multimoda
 
 1. Clone this repository (or download the files):
    ```bash
-   git clone https://github.com/sushrutha777/multi-language-invoice-extractor.git
+   git clone https://github.com/sushrutha777/Multi-Language-Invoice-Extractor.git
    cd multi-language-invoice-extractor
 2. Create Virtual Environment:
    ```bash
