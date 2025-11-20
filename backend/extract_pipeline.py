@@ -25,9 +25,7 @@ class InvoiceProcessor:
         return self.gemini.ask(question, images=[prepared])
 
 
-# -----------------------------------------------------------
 # BACKWARD-COMPATIBLE WRAPPER FUNCTION (for app.py)
-# -----------------------------------------------------------
 
 def process_invoice_qa(uploaded_file, question):
     """

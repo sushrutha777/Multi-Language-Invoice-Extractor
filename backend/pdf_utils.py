@@ -17,7 +17,6 @@ class PDFToImageConverter:
             doc = fitz.open(stream=file_like.read(), filetype="pdf")
 
         images = []
-
         for page in doc:
             pix = page.get_pixmap(matrix=fitz.Matrix(self.dpi/72, self.dpi/72))
             images.append(pix.tobytes("png"))
