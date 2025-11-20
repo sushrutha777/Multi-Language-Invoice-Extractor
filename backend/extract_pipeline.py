@@ -1,18 +1,37 @@
-from backend.pdf_utils import extract_text_from_pdf
-from backend.image_utils import prepare_image
-from backend.gemini_utils import ask_gemini_about_invoice
+# backend/extract_pipeline.py
+from .pdf_utils import PDFToImageConverter
+from .image_utils import ImagePreparer
+from .gemini_utils import GeminiClient
 
-def process_invoice_qa(uploaded_file, user_question):
-    """Processes uploaded invoices (PDF or image) and gets Gemini's answer."""
+class InvoiceProcessor:
+    def __init__(self):
+        self.pdf_converter = PDFToImageConverter()
+        self.image_preparer = ImagePreparer()
+        self.gemini = GeminiClient()
 
-    file_type = uploaded_file.type
-    if "pdf" in file_type:
-        # Extract text from PDF
-        text_data = extract_text_from_pdf(uploaded_file)
-        if not text_data.strip():
-            raise ValueError("No readable text found in PDF.")
-        return ask_gemini_about_invoice(user_question, text_data=text_data)
-    else:
-        # Prepare image for Gemini Vision
-        image_data = prepare_image(uploaded_file)
-        return ask_gemini_about_invoice(user_question, image_data=image_data)
+    def process(self, uploaded_file, question):
+        file_type = getattr(uploaded_file, "type", "")
+        file_name = getattr(uploaded_file, "name", "")
+
+        # PDF → convert to images → send to Gemini Vision
+        if "pdf" in file_type.lower() or file_name.lower().endswith(".pdf"):
+            pages = self.pdf_converter.pdf_to_images(uploaded_file)
+            prepared_images = [self.image_preparer.prepare_image(p) for p in pages]
+            return self.gemini.ask(question, images=prepared_images)
+
+        # Otherwise image
+        img_bytes = uploaded_file.getvalue()
+        prepared = self.image_preparer.prepare_image(img_bytes)
+        return self.gemini.ask(question, images=[prepared])
+
+
+# -----------------------------------------------------------
+# BACKWARD-COMPATIBLE WRAPPER FUNCTION (for app.py)
+# -----------------------------------------------------------
+
+def process_invoice_qa(uploaded_file, question):
+    """
+    Wrapper so existing Streamlit code continues to work.
+    """
+    processor = InvoiceProcessor()
+    return processor.process(uploaded_file, question)

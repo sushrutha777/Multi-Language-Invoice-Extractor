@@ -5,7 +5,7 @@ from PIL import Image
 # Page setup
 st.set_page_config(page_title="Invoice Q&A", layout="wide")
 
-st.title("Invoice Q&A System")
+st.title("Multi-Language Invoice Q&A System")
 
 # Upload Section
 uploaded_file = st.file_uploader(
@@ -16,7 +16,7 @@ uploaded_file = st.file_uploader(
 # Display preview if image
 if uploaded_file is not None and uploaded_file.type != "application/pdf":
     image = Image.open(uploaded_file)
-    st.image(image, caption="📎 Uploaded Invoice", use_container_width=True)
+    st.image(image, caption="Uploaded Invoice", use_container_width=True)
 
 # Question input comes AFTER upload preview
 if uploaded_file is not None:

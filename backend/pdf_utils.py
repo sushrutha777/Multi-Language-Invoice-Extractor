@@ -1,9 +1,26 @@
-import PyPDF2
+# backend/pdf_utils.py
+import fitz  # PyMuPDF
 
-def extract_text_from_pdf(uploaded_file):
-    """Extracts text content from PDF"""
-    reader = PyPDF2.PdfReader(uploaded_file)
-    text = ""
-    for page in reader.pages:
-        text += page.extract_text() or ""
-    return text
+class PDFToImageConverter:
+    """Converts PDF pages into high-quality images for vision models."""
+
+    def __init__(self, dpi: int = 200):
+        self.dpi = dpi
+
+    def pdf_to_images(self, file_like):
+        """Returns list of image bytes for each page."""
+        # Open PDF (path or uploaded file)
+        if isinstance(file_like, str):
+            doc = fitz.open(file_like)
+        else:
+            file_like.seek(0)
+            doc = fitz.open(stream=file_like.read(), filetype="pdf")
+
+        images = []
+
+        for page in doc:
+            pix = page.get_pixmap(matrix=fitz.Matrix(self.dpi/72, self.dpi/72))
+            images.append(pix.tobytes("png"))
+
+        doc.close()
+        return images

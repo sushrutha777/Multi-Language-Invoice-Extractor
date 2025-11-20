@@ -1,8 +1,8 @@
-def prepare_image(uploaded_file):
-    """Converting uploaded image to proper format for Gemini"""
-    bytes_data = uploaded_file.getvalue()
-    image_parts = [{
-        "mime_type": uploaded_file.type,
-        "data": bytes_data
-    }]
-    return image_parts[0]
+# backend/image_utils.py
+class ImagePreparer:
+    def prepare_image(self, img_bytes):
+        """Convert PNG bytes to Gemini-compatible format."""
+        return {
+            "mime_type": "image/png",
+            "data": img_bytes
+        }
