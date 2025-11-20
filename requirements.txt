@@ -3,5 +3,3 @@ PyMuPDF
 Pillow
 python-dotenv
 streamlit
-
-
