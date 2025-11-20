@@ -3,7 +3,7 @@ from backend.extract_pipeline import process_invoice_qa
 from PIL import Image
 
 # Page setup
-st.set_page_config(page_title="Invoice Q&A", layout="wide")
+st.set_page_config(page_title="Invoice Q&A System", layout="wide")
 
 st.title("Multi-Language Invoice Q&A System")
 
@@ -20,7 +20,7 @@ if uploaded_file is not None and uploaded_file.type != "application/pdf":
 
 # Question input comes AFTER upload preview
 if uploaded_file is not None:
-    user_question = st.text_input("Ask your question about this invoice (e.g., 'What is the total amount?')")
+    user_question = st.text_input("Ask your question about this invoice')")
 
     if st.button("Ask Question"):
         if not user_question.strip():
