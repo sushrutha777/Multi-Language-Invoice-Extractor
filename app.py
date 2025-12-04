@@ -7,10 +7,9 @@ st.set_page_config(page_title="Invoice Q&A System", layout="wide")
 
 st.title("Multi-Language Invoice Q&A System")
 
-# ---- Initialize conversation history ----
-if "qa_history" not in st.session_state:
-    # each item will be {"question": ..., "answer": ...}
-    st.session_state.qa_history = []
+# --- Keep only the latest answer in session_state ---
+if "last_answer" not in st.session_state:
+    st.session_state.last_answer = None
 
 # Upload Section
 uploaded_file = st.file_uploader(
@@ -26,20 +25,7 @@ if uploaded_file is not None and uploaded_file.type != "application/pdf":
 
 # Question input comes AFTER upload preview
 if uploaded_file is not None:
-
-    # --- Show previous Q&A history ---
-    if st.session_state.qa_history:
-        st.subheader("Conversation so far")
-        for qa in st.session_state.qa_history:
-            st.markdown(f"**You:** {qa['question']}")
-            st.markdown(f"**Answer:** {qa['answer']}")
-            st.markdown("---")
-
-    # Current question input
-    user_question = st.text_input(
-        "Ask your question about this invoice",
-        key="question_input"
-    )
+    user_question = st.text_input("Ask your question about this invoice")
 
     if st.button("Ask Question"):
         if not user_question.strip():
@@ -48,13 +34,15 @@ if uploaded_file is not None:
             with st.spinner("Thinking..."):
                 try:
                     answer = process_invoice_qa(uploaded_file, user_question)
-
-                    # Save this Q&A to history so it doesn't disappear
-                    st.session_state.qa_history.append({
-                        "question": user_question,
-                        "answer": answer
-                    })
+                    # store latest answer so it persists across reruns
+                    st.session_state.last_answer = answer
                 except Exception as e:
                     st.error(f"Error: {str(e)}")
+
+    # Always show the latest answer (if any)
+    if st.session_state.last_answer:
+        st.subheader("Answer")
+        st.write(st.session_state.last_answer)
+
 else:
     st.info("Please upload your invoice to get started.")
