@@ -16,7 +16,7 @@ uploaded_file = st.file_uploader(
 # Display preview if image
 if uploaded_file is not None and uploaded_file.type != "application/pdf":
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Invoice", use_container_width=True)
+    st.image(image, caption="Uploaded Invoice", use_container_width=500)
 
 # Question input comes AFTER upload preview
 if uploaded_file is not None:
