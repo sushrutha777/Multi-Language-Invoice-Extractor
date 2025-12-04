@@ -54,10 +54,6 @@ if uploaded_file is not None:
                         "question": user_question,
                         "answer": answer
                     })
-
-                    # Clear the text box for the next question
-                    st.session_state.question_input = ""
-
                 except Exception as e:
                     st.error(f"Error: {str(e)}")
 else:
