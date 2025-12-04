@@ -34,4 +34,4 @@ if uploaded_file is not None:
                 except Exception as e:
                     st.error(f"Error: {str(e)}")
 else:
-    st.info("Please upload your invoice to get started.")                                           as you can see this is my ui the thing is whenever i upload the png or jpeg for mat it is taking entire ui , instead keeoo it in a correct box , i am ok with pdf 
+    st.info("Please upload your invoice to get started.")
