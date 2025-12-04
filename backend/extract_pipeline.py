@@ -13,20 +13,26 @@ class InvoiceProcessor:
         file_type = getattr(uploaded_file, "type", "")
         file_name = getattr(uploaded_file, "name", "")
 
-        # PDF → convert to images → send to Gemini Vision
+        # When the user uploads a PDF, we must first convert each page into an image.
+        # Gemini Vision works best with image inputs, not raw PDFs
+        # pdf_to_images() returns each page as a PIL Image object.
+        # Send the prepared PIL Image to Gemini Vision
         if "pdf" in file_type.lower() or file_name.lower().endswith(".pdf"):
             pages = self.pdf_converter.pdf_to_images(uploaded_file)
             prepared_images = [self.image_preparer.prepare_image(p) for p in pages]
             return self.gemini.ask(question, images=prepared_images)
 
-        # Otherwise image
+        # Otherwise images in JPEG/PNG
+        # Streamlit provides uploaded images as raw file bytes (UploadedFile object).
+        # Extract the raw bytes using getvalue()
+        # Convert bytes into PIL Image inside prepare_image()
+        # Send the prepared PIL Image to Gemini Vision
         img_bytes = uploaded_file.getvalue()
         prepared = self.image_preparer.prepare_image(img_bytes)
         return self.gemini.ask(question, images=[prepared])
 
 
 # BACKWARD-COMPATIBLE WRAPPER FUNCTION (for app.py)
-
 def process_invoice_qa(uploaded_file, question):
     """
     Wrapper so existing Streamlit code continues to work.
