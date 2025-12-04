@@ -15,6 +15,6 @@ class GeminiClient:
             payload = [prompt] + images
             response = model.generate_content(payload)
         else:
-            response = model.generate_content(f"{prompt}\n\n{text_data}")
+            response = model.generate_content(prompt)
 
         return response.text
