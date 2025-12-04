@@ -32,10 +32,10 @@ class InvoiceProcessor:
         return self.gemini.ask(question, images=[prepared])
 
 
-# BACKWARD-COMPATIBLE WRAPPER FUNCTION (for app.py)
+# BACKWARD-COMPATIBLE FUNCTION (for app.py)
 def process_invoice_qa(uploaded_file, question):
     """
-    Wrapper so existing Streamlit code continues to work.
+    Connects Inputs and Backend.
     """
     processor = InvoiceProcessor()
     return processor.process(uploaded_file, question)
