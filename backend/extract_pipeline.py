@@ -13,7 +13,7 @@ class InvoiceProcessor:
         file_type = getattr(uploaded_file, "type", "")
         file_name = getattr(uploaded_file, "name", "")
 
-        # For PDFs, each page is converted into PNG bytes.
+        # For PDFs, each page is converted into PNG bytes (how PNG images are stored in hard disk).
         # Gemini Vision needs image inputs, so we convert all pages to PNG.
         # pdf_to_images() returns a list of PNG byte data for each page.
         # These PNG bytes are sent to Gemini Vision as image objects.
@@ -25,7 +25,7 @@ class InvoiceProcessor:
         # Otherwise images in JPEG/PNG
         # For JPG/PNG uploads, Streamlit gives the file as raw bytes.
         # We extract those bytes using getvalue().
-        # prepare_image() wraps these bytes as a Gemini-compatible image object.
+        # prepare_image() wraps these bytes as a Gemini-compatible image object.(PNG bytes)
         # The wrapped image bytes are then sent to Gemini Vision.
         img_bytes = uploaded_file.getvalue()
         prepared = self.image_preparer.prepare_image(img_bytes)
