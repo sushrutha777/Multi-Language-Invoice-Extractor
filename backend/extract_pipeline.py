@@ -13,20 +13,20 @@ class InvoiceProcessor:
         file_type = getattr(uploaded_file, "type", "")
         file_name = getattr(uploaded_file, "name", "")
 
-        # When the user uploads a PDF, we must first convert each page into an image.
-        # Gemini Vision works best with image inputs, not raw PDFs
-        # pdf_to_images() returns each page as a PIL Image object.
-        # Send the prepared PIL Image to Gemini Vision
+        # For PDFs, each page is converted into PNG bytes.
+        # Gemini Vision needs image inputs, so we convert all pages to PNG.
+        # pdf_to_images() returns a list of PNG byte data for each page.
+        # These PNG bytes are sent to Gemini Vision as image objects.
         if "pdf" in file_type.lower() or file_name.lower().endswith(".pdf"):
             pages = self.pdf_converter.pdf_to_images(uploaded_file)
             prepared_images = [self.image_preparer.prepare_image(p) for p in pages]
             return self.gemini.ask(question, images=prepared_images)
 
         # Otherwise images in JPEG/PNG
-        # Streamlit provides uploaded images as raw file bytes (UploadedFile object).
-        # Extract the raw bytes using getvalue()
-        # Convert bytes into PIL Image inside prepare_image()
-        # Send the prepared PIL Image to Gemini Vision
+        # For JPG/PNG uploads, Streamlit gives the file as raw bytes.
+        # We extract those bytes using getvalue().
+        # prepare_image() wraps these bytes as a Gemini-compatible image object.
+        # The wrapped image bytes are then sent to Gemini Vision.
         img_bytes = uploaded_file.getvalue()
         prepared = self.image_preparer.prepare_image(img_bytes)
         return self.gemini.ask(question, images=[prepared])
