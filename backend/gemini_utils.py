@@ -10,7 +10,7 @@ class GeminiClient:
 
     def ask(self, prompt, images=None):
         # Always use Gemini Vision model
-        model = genai.GenerativeModel("gemini-2.5-pro")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         if images:
             payload = [prompt] + images
             response = model.generate_content(payload)
