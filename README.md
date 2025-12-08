@@ -7,7 +7,7 @@ The system converts PDF pages into images and uses **Gemini 2.5 Pro** (multimoda
 
 - Upload PDF / JPG / PNG invoices
 - PDF pages automatically converted to images
-- Powered by Gemini 2.5 Pro which natively understands text inside images
+- Powered by Gemini-2.5-flash which natively understands text inside images
 - Works perfectly with **English + any languages Suported by Gemini** (Hindi, Tamil, Telugu, Bengali, Gujarati, etc.)
 - Extract totals, invoice number, GST, items, dates, vendor details, etc.
 - Clean and intuitive Streamlit UI
