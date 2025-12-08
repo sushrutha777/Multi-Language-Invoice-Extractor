@@ -33,8 +33,8 @@ def render_history_entry(idx: int | None):
     )
     if item.get("file_name"):
         st.caption(f"📄 Invoice: {item['file_name']}")
-    st.markdown(f"**Q:** {item['question']}")
-    st.markdown("**A:**")
+    st.markdown(f"**Question:** {item['question']}")
+    st.markdown("**Answer:**")
     st.write(item["answer"])
 
 
@@ -43,7 +43,7 @@ def main():
     st.title("Multi-Language Invoice Q&A System")
     # Sidebar: HISTORY
     with st.sidebar:
-        st.markdown("## 💬 History")
+        st.markdown("## History")
         if st.session_state.history:
             labels = []
             for idx, item in enumerate(reversed(st.session_state.history)):
